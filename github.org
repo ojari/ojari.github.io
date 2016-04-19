@@ -1,0 +1,123 @@
+#+TITLE:   github projects by j-a-r-i
+#+AUTHOR:  Jari Ojanen
+#+OPTIONS: H:4 num:nil toc:2 p:t
+#+SETUPFILE: ~/omat/org-html-themes/setup/theme-readtheorg.setup
+
+* Overview
+
+#+begin_src plantuml :file uml1.png
+skinparam componentStyle uml2
+
+package RaspberryPI {
+   interface TcpServer
+   [HaGUI]
+   [HwIF]
+
+   component [BLUEZ] #LightGrey
+   component [libsensors] #LightGrey
+
+   [HaGUI] .down.> TcpServer : use
+
+   TcpServer -down- [HwIF]
+   [HwIF] -down-> [BLUEZ] : use
+   [HwIF] -down-> [libsensors] : use
+}
+
+package VdrServer {
+   interface SVDRP
+   component [VDR] #LightGrey
+   SVDRP -down- [VDR]
+}
+
+package MspLaunchpad {
+   [FW1]
+}
+
+package Stm32F0Discovery {
+   [FW2]
+}
+
+package PSoc4BLE {
+   [FW3]
+}
+
+package Stm32Nucleo {
+   [FW4]
+}
+
+cloud {
+   component [Telldus] #LightGrey
+   component [dweet.io] #LightGrey
+   component [FMI] #LightGrey
+   component [Nasdaq] #LightGrey
+}
+
+[HaGUI] ..> SVDRP : use
+[HaGUI] -> [Telldus]
+[HaGUI] -> [dweet.io]
+[HaGUI] -> [FMI]
+[HaGUI] -> [Nasdaq]
+[HwIF] -- [FW1] : UART
+[HwIF] -- [FW2]
+[BLUEZ] -- [FW3]
+[HwIF] -- [FW4]
+
+#+end_src
+
+#+RESULTS:
+[[file:uml1.png]]
+
+* Raspberry PI
+
+OS: Custom yocto
+
+
+** HaGUI
+
+Home automation dashboard application.
+
+Language: NodeJS
+
+** HwIF
+
+Home automation hardware interface application.
+
+Language: Modern C++
+
+* MSP430 launchpad
+
+Processor: MSP430G2553
+OS: [[http://energia.nu/reference/][Energia]]
+
+** FW1
+
+Language: arduino (C++)
+
+* STM32F0 discovery
+
+Processor: STM32F051RB
+OS: [[http://www.freertos.org/a00106.html][FreeRTOS]] + [[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjBxvT7qpvMAhVI3CwKHTIrDOUQFggkMAE&url=http%3A%2F%2Fwww.st.com%2Fst-web-ui%2Fstatic%2Factive%2Fen%2Fresource%2Ftechnical%2Fdocument%2Fuser_manual%2FDM00122015.pdf&usg=AFQjCNG895hlKo_IJvrrs0efTC0_bu4iXw][STM32F0 HAL]]
+
+** FW2
+
+Language: C
+
+* Cypress PSOC 4 BLE
+
+Processor:
+OS: ???
+
+** FW3
+
+Language: C
+
+* STM32F0 nucleo
+
+[[https://developer.mbed.org]]
+
+Processor: STM32F072RB
+OS: mbed 2.0
+
+** FW4
+
+Language: C++
