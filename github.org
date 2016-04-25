@@ -5,6 +5,14 @@
 
 * Overview
 
+** Android applications
+
+See [[http://www.saunalahti.fi/~jarijoja/][LINK]].
+
+** Home automation system
+
+These projects can be found at [[http://www.github.com/j-a-r-i][github]].
+
 #+begin_src plantuml :file uml1.png
 skinparam componentStyle uml2
 
