@@ -1,0 +1,47 @@
+#+TITLE:   Applications
+#+AUTHOR:  Jari Ojanen
+#+OPTIONS: H:4 num:nil toc:2 p:t
+#+SETUPFILE: ~/omat/org-html-themes/setup/theme-readtheorg.setup
+
+* Windows
+
+ - [[http://developer.android.com/sdk/index.html][android studio]] and SDK
+ - [[http://cdex.mu/][cdex]]
+ - [[https://cygwin.com/install.html][cygwin]]
+ - [[https://sourceforge.net/projects/win32diskimager/][diskimage]]
+ - [[][eclipse]]
+    - [[][gnuarm eclipse]]
+    - [[][cdt]]
+ - [[http://www.nic.funet.fi/pub/gnu/ftp.gnu.org/pub/gnu/emacs/windows/][emacs]]
+    - [[][magit]]
+    - [[][zenburn-theme]]
+ - [[http://energia.nu/download/][energia]]
+ - [[https://launchpad.net/gcc-arm-embedded/+download][gcc-arm]]
+ - [[][git]]
+ - [[https://nodejs.org/en/download/stable/][nodejs (installer)]]
+ - [[https://www.python.org/downloads/][python 3.5 (installer)]]
+ - [[][ols]]
+ - [[][openocd (installer)]]
+ - [[https://en.osdn.jp/projects/ttssh2/releases/][teraterm]]
+ - [[http://winmerge.org/?lang=en][winmerge]]
+
+ - [[][msp430 flash emulation driver drivers]]
+ - [[http://www.7-zip.org/][7zip]]
+ - [[http://www.gpstrackeditor.com/][GPS Track editor]]
+ - [[http://www.java.com/en/download/][java]]
+ - [[https://kodi.tv/download/][kodi]]
+ - [[https://code.visualstudio.com/][visual studio code]]
+ - [[][visual studio community]]
+ - [[http://www.cypress.com/products/psoc-creator-integrated-design-environment-ide][psoc creator]]
+ - [[][stm32 st-link]]
+ - [[https://www.virtualbox.org/][virtual box]]
+ - [[https://picasa.google.com/][picasa 3]]
+ - [[http://www.samsung.com/in/support/usefulsoftware/KIES/][kies samsung]]
+ - [[https://www.mozilla.org/en-US/firefox/all/][firefox]]
+ - [[https://www.mozilla.org/en-US/thunderbird/all/][thunderbird]]
+ - [[][spotify]]
+
+ - [[][nti media maker9]]
+
+ - [[https://winscp.net/eng/download.php][WinSCP]]
+ - [[http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html][putty]]
