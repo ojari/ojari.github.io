@@ -22,6 +22,8 @@ package RaspberryPI {
    [HwIF]
 
    component [BLUEZ] #LightGrey
+   component [sqlite] #LightGrey
+   component [rapidJSON] #LightGrey
    component [libsensors] #LightGrey
 
    [HaGUI] .down.> TcpServer : use
@@ -29,6 +31,8 @@ package RaspberryPI {
    TcpServer -down- [HwIF]
    [HwIF] -down-> [BLUEZ] : use
    [HwIF] -down-> [libsensors] : use
+   [HwIF] -down-> [sqlite] : use
+   [HwIF] -down-> [rapidJSON] : use
 }
 
 package VdrServer {
@@ -91,6 +95,15 @@ Language: NodeJS
 Home automation hardware interface application.
 
 Language: Modern C++
+
+Libraries:
+ - http://rapidjson.org/
+ - http://sqlite.org/c3ref/objlist.html
+ - http://www.bluez.org/
+
+Possible libraries:
+ - https://www.zaphoyd.com/websocketpp/
+ - http://pocoproject.org/
 
 * MSP430 launchpad
 
