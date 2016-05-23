@@ -17,22 +17,27 @@ These projects can be found at [[http://www.github.com/j-a-r-i][github]].
 skinparam componentStyle uml2
 
 package RaspberryPI {
-   interface TcpServer
-   [HaGUI]
-   [HwIF]
+   [HaGUI] <<NodeJS>>
+   [HwIF]  <<C++>>
+
+   interface HttpServer
+   interface WsServer
 
    component [BLUEZ] #LightGrey
    component [sqlite] #LightGrey
    component [rapidJSON] #LightGrey
    component [libsensors] #LightGrey
+   component [WebSocket++] #LightGrey
 
-   [HaGUI] .down.> TcpServer : use
+   [HaGUI] .down.> WsServer : use
 
-   TcpServer -down- [HwIF]
+   HttpServer -down- [WebSocket++]
+   WsServer -down- [WebSocket++]
+   [HwIF] -up-> [WebSocket++] : use
    [HwIF] -down-> [BLUEZ] : use
    [HwIF] -down-> [libsensors] : use
-   [HwIF] -down-> [sqlite] : use
-   [HwIF] -down-> [rapidJSON] : use
+   [HwIF] -left-> [sqlite] : use
+   [HwIF] -left-> [rapidJSON] : use
 }
 
 package VdrServer {
@@ -42,11 +47,17 @@ package VdrServer {
 }
 
 package MspLaunchpad {
+   component [Energia] #LightGrey
    [FW1]
+   [FW1] -down-> [Energia]
 }
 
 package Stm32F0Discovery {
+   component [FreeRTOS] #LightGrey
+   component [Stm32HAL] #LightGrey
    [FW2]
+   [FW2] -down-> [FreeRTOS]
+   [FW2] -down-> [Stm32HAL]   
 }
 
 package PSoc4BLE {
@@ -54,11 +65,14 @@ package PSoc4BLE {
 }
 
 package Stm32Nucleo {
+   component [mbed] #LightGrey
    [FW4]
+   [FW4] -down-> [mbed]
 }
 
 cloud {
-   component [Telldus] #LightGrey
+   cloud [Telldus] #LightGrey
+   cloud [Telldus2] #LightGrey
    component [dweet.io] #LightGrey
    component [FMI] #LightGrey
    component [Nasdaq] #LightGrey
@@ -83,12 +97,28 @@ cloud {
 
 OS: Custom yocto
 
+** HaGUI frontend
 
-** HaGUI
+Packages:
+ - [[http://gulpjs.com/][gulp]]
+ - [[https://github.com/kriskowal/q][q]] 0.9.2
+ - [[https://angularjs.org/][angularjs]] 1.4.9
+ - [[https://developers.google.com/chart/][google charts]]
+
+** HaGUI backend
 
 Home automation dashboard application.
 
-Language: NodeJS
+Language: [[https://nodejs.org/en/][NodeJS]]
+
+Packages:
+ - [[https://github.com/websockets/ws][WS websocket library]]
+ - [[https://github.com/Leonidas-from-XIV/node-xml2js][xml2js]]
+ - [[https://github.com/ciaranj/node-oauth][oauth]]
+ - [[http://jasmine.github.io/2.4/introduction.html][jasmine for unit testing]]
+
+Possible:
+ - [[https://github.com/tj/co][co]]
 
 ** HwIF
 
@@ -102,6 +132,7 @@ Libraries:
  - http://www.bluez.org/
 
 Possible libraries:
+ - https://github.com/libuv/libuv
  - https://www.zaphoyd.com/websocketpp/
  - http://pocoproject.org/
 
