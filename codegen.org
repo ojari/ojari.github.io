@@ -1,0 +1,28 @@
+* Overview
+
+#+BEGIN_SRC dot :file pic01.png :cmdline -Kdot -Tpng
+digraph {
+rankdir=LR;
+
+subgraph cluster1 {
+label="sources"
+Cpp[label="C++"; shape=box]
+CS[label="C#"; shape=box]
+Java[label="Java"; shape=box]
+C[label="C"; shape=box]
+}
+
+node [shape=box]; C_source; xmi; xml; OrgMode;
+node [shape=circle]; doxygen; CodeGen; 
+
+C_source -> doxygen -> xmi -> CodeGen
+xml -> CodeGen
+OrgMode -> CodeGen
+
+CodeGen -> {CS Cpp Java C}
+}
+#+END_SRC 
+
+#+RESULTS:
+[[file:pic01.png]]
+;

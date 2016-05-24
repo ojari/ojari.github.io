@@ -16,24 +16,39 @@ These projects can be found at [[http://www.github.com/j-a-r-i][github]].
 #+begin_src plantuml :file uml1.png
 skinparam componentStyle uml2
 
+package Browser {
+   [ReportHtml] <<Html>>
+   [Report] <<JScript>>
+
+   [ReportHtml] .down.> [Report]  
+}
+
 package RaspberryPI {
    [HaGUI] <<NodeJS>>
    [HwIF]  <<C++>>
 
    interface HttpServer
    interface WsServer
+   interface WsServer2
+   interface Socket
 
    component [BLUEZ] #LightGrey
    component [sqlite] #LightGrey
    component [rapidJSON] #LightGrey
    component [libsensors] #LightGrey
+   component [libuv] #LightGrey
    component [WebSocket++] #LightGrey
 
-   [HaGUI] .down.> WsServer : use
+   [Report] .down.> WsServer
+   [HaGUI] .down.> Socket : use
 
-   HttpServer -down- [WebSocket++]
-   WsServer -down- [WebSocket++]
+   HttpServer -down- [HaGUI]
+   WsServer -down- [HaGUI]
+   WsServer2 -down- [WebSocket++]
+   Socket -down- [libuv]
    [HwIF] -up-> [WebSocket++] : use
+   [HwIF] -up-> [libuv] : use
+   [WebSocket++] .down.> [libuv]
    [HwIF] -down-> [BLUEZ] : use
    [HwIF] -down-> [libsensors] : use
    [HwIF] -left-> [sqlite] : use
@@ -72,12 +87,12 @@ package Stm32Nucleo {
 
 cloud {
    cloud [Telldus] #LightGrey
-   cloud [Telldus2] #LightGrey
    component [dweet.io] #LightGrey
    component [FMI] #LightGrey
    component [Nasdaq] #LightGrey
 }
 
+HttpServer ..> [ReportHtml]
 [HaGUI] ..> SVDRP : use
 [HaGUI] -> [Telldus]
 [HaGUI] -> [dweet.io]
