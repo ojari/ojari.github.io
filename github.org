@@ -67,16 +67,23 @@ package MspLaunchpad {
    [FW1] -down-> [Energia]
 }
 
+[drivers]
+
 package Stm32F0Discovery {
    component [FreeRTOS] #LightGrey
    component [Stm32HAL] #LightGrey
-   [FW2]
-   [FW2] -down-> [FreeRTOS]
-   [FW2] -down-> [Stm32HAL]   
+   [StmMeasure]
+   [StmMeasure] -down-> [FreeRTOS]
+   [StmMeasure] -down-> [Stm32HAL]
+   [StmMeasure] -down-> [drivers]
+   [drivers]
 }
 
 package PSoc4BLE {
-   [FW3]
+   [psoc]
+   [drivers]
+
+   [psoc] -down-> [drivers]
 }
 
 package Stm32Nucleo {
@@ -99,8 +106,8 @@ HttpServer ..> [ReportHtml]
 [HaGUI] -> [FMI]
 [HaGUI] -> [Nasdaq]
 [HwIF] -- [FW1] : UART
-[HwIF] -- [FW2]
-[BLUEZ] -- [FW3]
+[HwIF] -- [StmMeasure]
+[BLUEZ] -- [psoc]
 [HwIF] -- [FW4]
 
 #+end_src
@@ -165,7 +172,7 @@ Language: arduino (C++)
 Processor: STM32F051RB
 OS: [[http://www.freertos.org/a00106.html][FreeRTOS]] + [[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjBxvT7qpvMAhVI3CwKHTIrDOUQFggkMAE&url=http%3A%2F%2Fwww.st.com%2Fst-web-ui%2Fstatic%2Factive%2Fen%2Fresource%2Ftechnical%2Fdocument%2Fuser_manual%2FDM00122015.pdf&usg=AFQjCNG895hlKo_IJvrrs0efTC0_bu4iXw][STM32F0 HAL]]
 
-** FW2
+** StmMeasure
 
 Language: C
 
@@ -174,7 +181,7 @@ Language: C
 Processor:
 OS: ???
 
-** FW3
+** PSOC
 
 Language: C
 
