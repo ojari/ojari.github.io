@@ -5,9 +5,13 @@
 
 * Overview
 
-** Android applications
+** Links
 
-See [[http://www.saunalahti.fi/~jarijoja/][LINK]].
+See also:
+ - [[https://developer.mbed.org/users/jari/code/][mbed]] repositories
+ - [[http://www.saunalahti.fi/~jarijoja/][Android applications]]
+ - [[https://susestudio.com/u/jojanen2][Suse studio]]
+ - [[https://launchpad.net/~jojanen][Ubuntu launchpad]]
 
 ** Home automation system
 
