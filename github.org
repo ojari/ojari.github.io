@@ -4,7 +4,6 @@
 #+SETUPFILE: ~/omat/org-html-themes/setup/theme-readtheorg.setup
 
 * Overview
-
 ** Links
 
 See also:
@@ -27,35 +26,38 @@ package Browser {
    [ReportHtml] .down.> [Report]  
 }
 
+package PC {
+   [HaMonitor] <<C#>>
+}
+
 package RaspberryPI {
    [HaGUI] <<NodeJS>>
    [HwIF]  <<C++>>
 
    interface HttpServer
    interface WsServer
-   interface WsServer2
-   interface Socket
+   interface mqtt
+   interface RedisApi
 
    component [BLUEZ] #LightGrey
-   component [sqlite] #LightGrey
    component [rapidJSON] #LightGrey
-   component [libsensors] #LightGrey
-   component [libuv] #LightGrey
-   component [WebSocket++] #LightGrey
+   component [PahoMqttC] #LightGrey
+   component [mosquitto] #LightGrey
+   component [redis] #LightGrey
+   component [PluginTelldus]
 
    [Report] .down.> WsServer
-   [HaGUI] .down.> Socket : use
+   [HaGUI] .down.> mqtt : use
+   [HaGUI] .down.> RedisApi : use
+   [PahoMqttC] .up.> mqtt : use
+
+   [mosquitto] -right- mqtt
+   [redis] -right- RedisApi
 
    HttpServer -down- [HaGUI]
    WsServer -down- [HaGUI]
-   WsServer2 -down- [WebSocket++]
-   Socket -down- [libuv]
-   [HwIF] -up-> [WebSocket++] : use
-   [HwIF] -up-> [libuv] : use
-   [WebSocket++] .down.> [libuv]
+   [HwIF] -up-> [PahoMqttC] : use
    [HwIF] -down-> [BLUEZ] : use
-   [HwIF] -down-> [libsensors] : use
-   [HwIF] -left-> [sqlite] : use
    [HwIF] -left-> [rapidJSON] : use
 }
 
@@ -97,27 +99,50 @@ package Stm32Nucleo {
 }
 
 cloud {
-   cloud [Telldus] #LightGrey
-   component [dweet.io] #LightGrey
-   component [FMI] #LightGrey
-   component [Nasdaq] #LightGrey
+   [Telldus] #LightGrey
+}
+cloud {
+   [dweet.io] #LightGrey
+}
+cloud {
+   [FMI] #LightGrey
+}
+cloud {
+   [Nasdaq] #LightGrey
 }
 
 HttpServer ..> [ReportHtml]
-[HaGUI] ..> SVDRP : use
-[HaGUI] -> [Telldus]
+[HaGUI] .up.> SVDRP : use
 [HaGUI] -> [dweet.io]
 [HaGUI] -> [FMI]
 [HaGUI] -> [Nasdaq]
+[HaGUI] -> [PluginTelldus]
 [HwIF] -- [FW1] : UART
 [HwIF] -- [StmMeasure]
 [BLUEZ] -- [psoc]
 [HwIF] -- [FW4]
 
+[PluginTelldus] -up-> [Telldus]
+[HaMonitor] .up.> mqtt
+[HaMonitor] .up.> RedisApi
 #+end_src
 
 #+RESULTS:
 [[file:uml1.png]]
+
+* PC
+
+OS: Windows
+
+** HaMonitor
+
+Windows WPF based debugging application for monitoring 
+MQTT messages and REDIS database contents.
+
+Packages:
+ - M2Mqtt.Net
+ - OxyPlot
+ - StackExchange.Redis
 
 * Raspberry PI
 
@@ -201,15 +226,18 @@ OS: mbed 2.0
 Language: C++
 * CodeGen
 
-Collect data from several sources:
- - source code
- - uml model
- - orgmode documents
- - ...
+1. Collect data from several sources:
 
-Combine and process the data
+| Format      | File format                    | Status  |
+|-------------+--------------------------------+---------|
+| source code | sources -> doxygen -> xml file | -       |
+| uml model   | xmi file                       | -       |
+| org-mode    | .org                           | initial |
+| excel sheet | xml                            | -       |
 
-Generate source code for
+2. Combine and process the data
+
+3. Generate source code for
  - C#
  - C++
  - C 
@@ -228,12 +256,13 @@ Java[label="Java"; shape=box]
 C[label="C"; shape=box]
 }
 
-node [shape=box]; C_source; xmi; xml; OrgMode;
-node [shape=circle]; doxygen; CodeGen; 
+node [shape=box]; C_source; xmi; xml; OrgMode; xlsx
+node [shape=circle]; doxygen; CodeGen; UmlTool; Excel; Emacs;
 
-C_source -> doxygen -> xmi -> CodeGen
-xml -> CodeGen
-OrgMode -> CodeGen
+C_source -> doxygen -> xml -> CodeGen
+UmlTool -> xmi -> CodeGen
+Emacs -> OrgMode -> CodeGen
+Excel -> xlsx -> CodeGen
 
 CodeGen -> {CS Cpp Java C}
 }
@@ -241,3 +270,16 @@ CodeGen -> {CS Cpp Java C}
 
 #+RESULTS:
 [[file:pic01.png]]
+
+
+#+BEGIN_SRC dot :file pic02.png :cmdline -Kdot -Tpng
+digraph {
+rankdir=UD;
+
+"CodeGen script" -> "CodeGen library"
+}
+#+END_SRC 
+
+#+RESULTS:
+[[file:pic02.png]]
+
