@@ -45,6 +45,7 @@ package RaspberryPI {
    component [mosquitto] #LightGrey
    component [redis] #LightGrey
    component [PluginTelldus]
++
 
    [Report] .down.> WsServer
    [HaGUI] .down.> mqtt : use

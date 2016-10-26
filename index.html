@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>github projects by j-a-r-i</title>
-<!-- 2016-06-03 pe 22:39 -->
+<!-- 2016-10-26 ke 20:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Jari Ojanen" />
@@ -154,34 +154,39 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-2">Home automation system</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">Raspberry PI</a>
+<li><a href="#sec-2">PC</a>
 <ul>
-<li><a href="#sec-2-1">HaGUI frontend</a></li>
-<li><a href="#sec-2-2">HaGUI backend</a></li>
-<li><a href="#sec-2-3">HwIF</a></li>
+<li><a href="#sec-2-1">HaMonitor</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">MSP430 launchpad</a>
+<li><a href="#sec-3">Raspberry PI</a>
 <ul>
-<li><a href="#sec-3-1">FW1</a></li>
+<li><a href="#sec-3-1">HaGUI frontend</a></li>
+<li><a href="#sec-3-2">HaGUI backend</a></li>
+<li><a href="#sec-3-3">HwIF</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">STM32F0 discovery</a>
+<li><a href="#sec-4">MSP430 launchpad</a>
 <ul>
-<li><a href="#sec-4-1">StmMeasure</a></li>
+<li><a href="#sec-4-1">FW1</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">Cypress PSOC 4 BLE</a>
+<li><a href="#sec-5">STM32F0 discovery</a>
 <ul>
-<li><a href="#sec-5-1">PSOC</a></li>
+<li><a href="#sec-5-1">StmMeasure</a></li>
 </ul>
 </li>
-<li><a href="#sec-6">STM32F0 nucleo</a>
+<li><a href="#sec-6">Cypress PSOC 4 BLE</a>
 <ul>
-<li><a href="#sec-6-1">FW4</a></li>
+<li><a href="#sec-6-1">PSOC</a></li>
 </ul>
 </li>
-<li><a href="#sec-7">CodeGen</a></li>
+<li><a href="#sec-7">STM32F0 nucleo</a>
+<ul>
+<li><a href="#sec-7-1">FW4</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">CodeGen</a></li>
 </ul>
 </div>
 </div>
@@ -225,16 +230,47 @@ These projects can be found at <a href="http://www.github.com/j-a-r-i">github</a
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Raspberry PI</h2>
+<h2 id="sec-2">PC</h2>
 <div class="outline-text-2" id="text-2">
+<p>
+OS: Windows
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">HaMonitor</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Windows WPF based debugging application for monitoring 
+MQTT messages and REDIS database contents.
+</p>
+
+<p>
+Packages:
+</p>
+<ul class="org-ul">
+<li>M2Mqtt.Net
+</li>
+<li>OxyPlot
+</li>
+<li>StackExchange.Redis
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Raspberry PI</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 OS: Custom yocto
 </p>
 </div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">HaGUI frontend</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">HaGUI frontend</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
 Packages:
 </p>
@@ -251,9 +287,9 @@ Packages:
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">HaGUI backend</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">HaGUI backend</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
 Home automation dashboard application.
 </p>
@@ -286,9 +322,9 @@ Possible:
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3">HwIF</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">HwIF</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
 Home automation hardware interface application.
 </p>
@@ -324,18 +360,18 @@ Possible libraries:
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">MSP430 launchpad</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">MSP430 launchpad</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 Processor: MSP430G2553
 OS: <a href="http://energia.nu/reference/">Energia</a>
 </p>
 </div>
 
-<div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1">FW1</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">FW1</h3>
+<div class="outline-text-3" id="text-4-1">
 <p>
 Language: arduino (C++)
 </p>
@@ -343,36 +379,17 @@ Language: arduino (C++)
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">STM32F0 discovery</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">STM32F0 discovery</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 Processor: STM32F051RB
 OS: <a href="http://www.freertos.org/a00106.html">FreeRTOS</a> + <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjBxvT7qpvMAhVI3CwKHTIrDOUQFggkMAE&url=http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00122015.pdf&usg=AFQjCNG895hlKo_IJvrrs0efTC0_bu4iXw">STM32F0 HAL</a>
 </p>
 </div>
 
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">StmMeasure</h3>
-<div class="outline-text-3" id="text-4-1">
-<p>
-Language: C
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Cypress PSOC 4 BLE</h2>
-<div class="outline-text-2" id="text-5">
-<p>
-Processor:
-OS: ???
-</p>
-</div>
-
 <div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1">PSOC</h3>
+<h3 id="sec-5-1">StmMeasure</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Language: C
@@ -382,8 +399,27 @@ Language: C
 </div>
 
 <div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">STM32F0 nucleo</h2>
+<h2 id="sec-6">Cypress PSOC 4 BLE</h2>
 <div class="outline-text-2" id="text-6">
+<p>
+Processor:
+OS: ???
+</p>
+</div>
+
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">PSOC</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Language: C
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">STM32F0 nucleo</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 <a href="https://developer.mbed.org">https://developer.mbed.org</a>
 </p>
@@ -394,39 +430,72 @@ OS: mbed 2.0
 </p>
 </div>
 
-<div id="outline-container-sec-6-1" class="outline-3">
-<h3 id="sec-6-1">FW4</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">FW4</h3>
+<div class="outline-text-3" id="text-7-1">
 <p>
 Language: C++
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7">CodeGen</h2>
-<div class="outline-text-2" id="text-7">
-<p>
-Collect data from several sources:
-</p>
-<ul class="org-ul">
-<li>source code
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">CodeGen</h2>
+<div class="outline-text-2" id="text-8">
+<ol class="org-ol">
+<li>Collect data from several sources:
 </li>
-<li>uml model
-</li>
-<li>orgmode documents
-</li>
-<li>&#x2026;
-</li>
-</ul>
+</ol>
 
-<p>
-Combine and process the data
-</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-<p>
-Generate source code for
-</p>
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Format</th>
+<th scope="col" class="left">File format</th>
+<th scope="col" class="left">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">source code</td>
+<td class="left">sources -&gt; doxygen -&gt; xml file</td>
+<td class="left">-</td>
+</tr>
+
+<tr>
+<td class="left">uml model</td>
+<td class="left">xmi file</td>
+<td class="left">-</td>
+</tr>
+
+<tr>
+<td class="left">org-mode</td>
+<td class="left">.org</td>
+<td class="left">initial</td>
+</tr>
+
+<tr>
+<td class="left">excel sheet</td>
+<td class="left">xml</td>
+<td class="left">-</td>
+</tr>
+</tbody>
+</table>
+
+<ol class="org-ol">
+<li>Combine and process the data
+</li>
+
+<li>Generate source code for
 <ul class="org-ul">
 <li>C#
 </li>
@@ -437,6 +506,8 @@ Generate source code for
 <li>Java
 </li>
 </ul>
+</li>
+</ol>
 
 
 
@@ -444,12 +515,19 @@ Generate source code for
 <p><img src="pic01.png" alt="pic01.png" />
 </p>
 </div>
+
+
+
+<div class="figure">
+<p><img src="pic02.png" alt="pic02.png" />
+</p>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Jari Ojanen</p>
-<p class="date">Created: 2016-06-03 pe 22:39</p>
+<p class="date">Created: 2016-10-26 ke 20:15</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
