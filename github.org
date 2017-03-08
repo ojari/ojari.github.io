@@ -8,13 +8,125 @@
 
 See also:
  - [[https://developer.mbed.org/users/jari/code/][mbed]] repositories
+ - [[http://www.github.com/j-a-r-i][github]] repositories
  - [[http://www.saunalahti.fi/~jarijoja/][Android applications]]
  - [[https://susestudio.com/u/jojanen2][Suse studio]]
- - [[https://launchpad.net/~jojanen][Ubuntu launchpad]]
+ - [[https://launchpad.net/~j-a-r-i][Ubuntu launchpad]] (empty)
+ - [[https://www.npmjs.com/~j-a-r-i][NPM]] (empty)
 
 ** Home automation system
 
-These projects can be found at [[http://www.github.com/j-a-r-i][github]].
+These projects can be found at [[http://www.github.com/j-a-r-i][github]] or visual studio online.
+
+*** New architecture
+
+#+begin_src plantuml :file uml1b.png
+skinparam componentStyle uml2
+
+package Browser {
+   [HaDash] <<elm>>
+}
+
+package PC {
+   [HaMonitor] <<C#>>
+}
+
+package RaspberryPI {
+   [HaServer] <<NodeJS>>
+   [QHwInterface]  <<C++>>
+
+   interface HttpServer
+   interface WsServer
+   interface mqtt
+
+   component [mosquitto] #LightGrey
+   component [QtBluetooth] #LightGrey
+   component [QtSerial] #LightGrey
+   component [QtWebSocket] #LightGrey
+
+   [HaDash] .down.> WsServer
+   [HaServer] .down.> mqtt : use
+   [QtWebSocket] .up.> mqtt : use
+
+   [mosquitto] -right- mqtt
+
+   HttpServer -down- [HaServer]
+   WsServer -down- [HaServer]
+   [QHwInterface] -down-> [QtBluetooth] : use
+   [QHwInterface] -down-> [QtSerial] : use
+   [QHwInterface] -up-> [QtWebSocket] : use
+}
+
+package TvServer {
+   interface HTSP
+   component [TvHeadEnd] #LightGrey
+   HTSP -down- [TvHeadEnd]
+}
+
+package MspLaunchpad {
+   component [Energia] #LightGrey
+   [FW1]
+   [FW1] -down-> [Energia]
+}
+
+[drivers]
+
+package Stm32F0Discovery {
+   component [FreeRTOS] #LightGrey
+   component [Stm32HAL] #LightGrey
+   [StmMeasure]
+   [StmMeasure] -down-> [FreeRTOS]
+   [StmMeasure] -down-> [Stm32HAL]
+   [StmMeasure] -down-> [drivers]
+   [drivers]
+}
+
+package PSoc4BLE {
+   [psoc]
+   [drivers]
+
+   [psoc] -down-> [drivers]
+}
+
+package Stm32Nucleo {
+   component [mbed] #LightGrey
+   [FW4]
+   [FW4] -down-> [mbed]
+}
+
+cloud {
+   [Telldus] #LightGrey
+}
+cloud {
+   [dweet.io] #LightGrey
+}
+cloud {
+   [FMI] #LightGrey
+}
+cloud {
+   [Nasdaq] #LightGrey
+}
+
+HttpServer .up.> [HaDash]
+[HaServer] .up.> HTSP : use
+[HaServer] -> [dweet.io]
+[HaServer] -> [FMI]
+[HaServer] -> [Nasdaq]
+[HaServer] -> [Telldus]
+[QHwInterface] -- [FW1] : UART
+[QHwInterface] -- [StmMeasure]
+[QtBluetooth] -- [psoc]
+[QHwInterface] -- [FW4]
+
+[HaMonitor] .down.> mqtt
+[HaMonitor] .down.> WsServer
+
+#+end_src
+
+#+RESULTS:
+[[file:uml1b.png]]
+
+*** Old architecture
 
 #+begin_src plantuml :file uml1.png
 skinparam componentStyle uml2
@@ -45,7 +157,6 @@ package RaspberryPI {
    component [mosquitto] #LightGrey
    component [redis] #LightGrey
    component [PluginTelldus]
-+
 
    [Report] .down.> WsServer
    [HaGUI] .down.> mqtt : use
@@ -118,14 +229,14 @@ HttpServer ..> [ReportHtml]
 [HaGUI] -> [FMI]
 [HaGUI] -> [Nasdaq]
 [HaGUI] -> [PluginTelldus]
-[HwIF] -- [FW1] : UART
-[HwIF] -- [StmMeasure]
-[BLUEZ] -- [psoc]
-[HwIF] -- [FW4]
+[QHwInterface] -- [FW1] : UART
+[QHwInterface] -- [StmMeasure]
+[QtBluetooth] -- [psoc]
+[QHwInterface] -- [FW4]
 
 [PluginTelldus] -up-> [Telldus]
+[HaMonitor] .up.> WsServer
 [HaMonitor] .up.> mqtt
-[HaMonitor] .up.> RedisApi
 #+end_src
 
 #+RESULTS:
@@ -140,16 +251,49 @@ OS: Windows
 Windows WPF based debugging application for monitoring 
 MQTT messages and REDIS database contents.
 
+[[file:screenshot01.png]]
+
 Packages:
- - M2Mqtt.Net
- - OxyPlot
- - StackExchange.Redis
+ - [[https://m2mqtt.wordpress.com/][M2Mqtt.Net]]
+ - [[http://www.oxyplot.org/][OxyPlot]]
+ - [[https://github.com/StackExchange/StackExchange.Redis][StackExchange.Redis]]
+ - [[http://www.newtonsoft.com/json][Json.Net]]
+ - [[https://github.com/sta/websocket-sharp][websocket-sharp]]
+ 
 
 * Raspberry PI
 
-OS: Custom yocto
+OS: buildroot/Raspbian (used to be custom yocto)
 
-** HaGUI frontend
+** HaDASH frontend (WIP)
+
+Language: [[http://elm-lang.org/][elm]]  (Compiled to JavaScript runs in browser)
+
+Packages:
+ - [[https://developers.google.com/chart/][google charts]]
+
+** HaServer
+
+Language: [[https://nodejs.org/en/][NodeJS]] ES6 (plans for ES7 async/await)
+
+Packages:
+ - [[https://github.com/websockets/ws][WS websocket library]]
+ - sax
+ - mqtt
+
+** QHwInterface
+
+Home automation hardware interface application.
+
+Language: Qt (utilize modern C++)
+
+Libraries:
+ - [[http://doc.qt.io/qt-5/qtbluetooth-index.html][QtBluetooth]]
+ - [[http://doc.qt.io/qt-5/qtserialport-index.html][QtSerialport]]
+ - [[http://doc.qt.io/qt-5/qtwebsockets-index.html][QtWebsockets]]
+
+
+** HaGUI frontend (old)
 
 Packages:
  - [[http://gulpjs.com/][gulp]]
@@ -157,7 +301,7 @@ Packages:
  - [[https://angularjs.org/][angularjs]] 1.4.9
  - [[https://developers.google.com/chart/][google charts]]
 
-** HaGUI backend
+** HaGUI backend (old)
 
 Home automation dashboard application.
 
@@ -172,7 +316,7 @@ Packages:
 Possible:
  - [[https://github.com/tj/co][co]]
 
-** HwIF
+** HwIF (old)
 
 Home automation hardware interface application.
 
