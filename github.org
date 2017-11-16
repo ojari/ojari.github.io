@@ -7,126 +7,18 @@
 ** Links
 
 See also:
- - [[https://developer.mbed.org/users/jari/code/][mbed]] repositories
  - [[http://www.github.com/j-a-r-i][github]] repositories
+ - [[https://developer.mbed.org/users/jari/code/][mbed]] repositories
  - [[http://www.saunalahti.fi/~jarijoja/][Android applications]]
  - [[https://susestudio.com/u/jojanen2][Suse studio]]
- - [[https://launchpad.net/~j-a-r-i][Ubuntu launchpad]] (empty)
  - [[https://www.npmjs.com/~j-a-r-i][NPM]] (empty)
 
 ** Home automation system
 
 These projects can be found at [[http://www.github.com/j-a-r-i][github]] or visual studio online.
 
-*** New architecture
 
-#+begin_src plantuml :file uml1b.png
-skinparam componentStyle uml2
-
-package Browser {
-   [HaDash] <<elm>>
-}
-
-package PC {
-   [HaMonitor] <<C#>>
-}
-
-package RaspberryPI {
-   [HaServer] <<NodeJS>>
-   [QHwInterface]  <<C++>>
-
-   interface HttpServer
-   interface WsServer
-   interface mqtt
-
-   component [mosquitto] #LightGrey
-   component [QtBluetooth] #LightGrey
-   component [QtSerial] #LightGrey
-   component [QtWebSocket] #LightGrey
-
-   [HaDash] .down.> WsServer
-   [HaServer] .down.> mqtt : use
-   [QtWebSocket] .up.> mqtt : use
-
-   [mosquitto] -right- mqtt
-
-   HttpServer -down- [HaServer]
-   WsServer -down- [HaServer]
-   [QHwInterface] -down-> [QtBluetooth] : use
-   [QHwInterface] -down-> [QtSerial] : use
-   [QHwInterface] -up-> [QtWebSocket] : use
-}
-
-package TvServer {
-   interface HTSP
-   component [TvHeadEnd] #LightGrey
-   HTSP -down- [TvHeadEnd]
-}
-
-package MspLaunchpad {
-   component [Energia] #LightGrey
-   [FW1]
-   [FW1] -down-> [Energia]
-}
-
-[drivers]
-
-package Stm32F0Discovery {
-   component [FreeRTOS] #LightGrey
-   component [Stm32HAL] #LightGrey
-   [StmMeasure]
-   [StmMeasure] -down-> [FreeRTOS]
-   [StmMeasure] -down-> [Stm32HAL]
-   [StmMeasure] -down-> [drivers]
-   [drivers]
-}
-
-package PSoc4BLE {
-   [psoc]
-   [drivers]
-
-   [psoc] -down-> [drivers]
-}
-
-package Stm32Nucleo {
-   component [mbed] #LightGrey
-   [FW4]
-   [FW4] -down-> [mbed]
-}
-
-cloud {
-   [Telldus] #LightGrey
-}
-cloud {
-   [dweet.io] #LightGrey
-}
-cloud {
-   [FMI] #LightGrey
-}
-cloud {
-   [Nasdaq] #LightGrey
-}
-
-HttpServer .up.> [HaDash]
-[HaServer] .up.> HTSP : use
-[HaServer] -> [dweet.io]
-[HaServer] -> [FMI]
-[HaServer] -> [Nasdaq]
-[HaServer] -> [Telldus]
-[QHwInterface] -- [FW1] : UART
-[QHwInterface] -- [StmMeasure]
-[QtBluetooth] -- [psoc]
-[QHwInterface] -- [FW4]
-
-[HaMonitor] .down.> mqtt
-[HaMonitor] .down.> WsServer
-
-#+end_src
-
-#+RESULTS:
-[[file:uml1b.png]]
-
-*** Old architecture
+*** Architecture
 
 #+begin_src plantuml :file uml1.png
 skinparam componentStyle uml2
@@ -144,7 +36,7 @@ package PC {
 
 package RaspberryPI {
    [HaGUI] <<NodeJS>>
-   [HwIF]  <<C++>>
+   [hac]  <<C>>
 
    interface HttpServer
    interface WsServer
@@ -152,8 +44,7 @@ package RaspberryPI {
    interface RedisApi
 
    component [BLUEZ] #LightGrey
-   component [rapidJSON] #LightGrey
-   component [PahoMqttC] #LightGrey
+   component [libmosquitto] #LightGrey
    component [mosquitto] #LightGrey
    component [redis] #LightGrey
    component [PluginTelldus]
@@ -161,16 +52,16 @@ package RaspberryPI {
    [Report] .down.> WsServer
    [HaGUI] .down.> mqtt : use
    [HaGUI] .down.> RedisApi : use
-   [PahoMqttC] .up.> mqtt : use
+   [libmosquitto] .up.> mqtt : use
 
    [mosquitto] -right- mqtt
    [redis] -right- RedisApi
 
    HttpServer -down- [HaGUI]
    WsServer -down- [HaGUI]
-   [HwIF] -up-> [PahoMqttC] : use
-   [HwIF] -down-> [BLUEZ] : use
-   [HwIF] -left-> [rapidJSON] : use
+   [hac] -up-> [libmosquitto] : use
+   [hac] -down-> [BLUEZ] : use
+   [hac] -left-> [rapidJSON] : use
 }
 
 package VdrServer {
@@ -192,7 +83,7 @@ package Stm32F0Discovery {
    component [Stm32HAL] #LightGrey
    [StmMeasure]
    [StmMeasure] -down-> [FreeRTOS]
-   [StmMeasure] -down-> [Stm32HAL]
+   [StmMeasure] -down-> [Stm32LL]
    [StmMeasure] -down-> [drivers]
    [drivers]
 }
@@ -229,10 +120,10 @@ HttpServer ..> [ReportHtml]
 [HaGUI] -> [FMI]
 [HaGUI] -> [Nasdaq]
 [HaGUI] -> [PluginTelldus]
-[QHwInterface] -- [FW1] : UART
-[QHwInterface] -- [StmMeasure]
-[QtBluetooth] -- [psoc]
-[QHwInterface] -- [FW4]
+[hac] -- [FW1] : UART
+[hac] -- [StmMeasure] : UART
+[BLUEZ] -- [psoc] : BLE
+[hac] -- [FW4] : UART
 
 [PluginTelldus] -up-> [Telldus]
 [HaMonitor] .up.> WsServer
@@ -344,7 +235,7 @@ Language: arduino (C++)
 * STM32F0 discovery
 
 Processor: STM32F051RB
-OS: [[http://www.freertos.org/a00106.html][FreeRTOS]] + [[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjBxvT7qpvMAhVI3CwKHTIrDOUQFggkMAE&url=http%3A%2F%2Fwww.st.com%2Fst-web-ui%2Fstatic%2Factive%2Fen%2Fresource%2Ftechnical%2Fdocument%2Fuser_manual%2FDM00122015.pdf&usg=AFQjCNG895hlKo_IJvrrs0efTC0_bu4iXw][STM32F0 HAL]]
+OS: [[http://www.freertos.org/a00106.html][FreeRTOS]] + [[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjBxvT7qpvMAhVI3CwKHTIrDOUQFggkMAE&url=http%3A%2F%2Fwww.st.com%2Fst-web-ui%2Fstatic%2Factive%2Fen%2Fresource%2Ftechnical%2Fdocument%2Fuser_manual%2FDM00122015.pdf&usg=AFQjCNG895hlKo_IJvrrs0efTC0_bu4iXw][STM32F0 LL]]
 
 ** StmMeasure
 
