@@ -47,6 +47,9 @@ package RaspberryPI {
    component [libmosquitto] #LightGrey
    component [mosquitto] #LightGrey
    component [redis] #LightGrey
+   component [sqlite] #LightGrey
+   component [libcurl] #LightGrey
+   component [rapidJSON] #LightGrey
    component [PluginTelldus]
 
    [Report] .down.> WsServer
@@ -62,6 +65,8 @@ package RaspberryPI {
    [hac] -up-> [libmosquitto] : use
    [hac] -down-> [BLUEZ] : use
    [hac] -left-> [rapidJSON] : use
+   [hac] -left-> [libcurl] : use
+   [hac] -left-> [sqlite] : use
 }
 
 package VdrServer {
@@ -70,13 +75,17 @@ package VdrServer {
    SVDRP -down- [VDR]
 }
 
+[drivers]
+
 package MspLaunchpad {
    component [Energia] #LightGrey
    [FW1]
+   [drivers]
    [FW1] -down-> [Energia]
+   [FW1] -down-> [drivers]
 }
 
-[drivers]
+
 
 package Stm32F0Discovery {
    component [FreeRTOS] #LightGrey
@@ -120,10 +129,12 @@ HttpServer ..> [ReportHtml]
 [HaGUI] -> [FMI]
 [HaGUI] -> [Nasdaq]
 [HaGUI] -> [PluginTelldus]
-[hac] -- [FW1] : UART
 [hac] -- [StmMeasure] : UART
 [BLUEZ] -- [psoc] : BLE
-[hac] -- [FW4] : UART
+
+[StmMeasure] -- [FW1] : rfm12b
+[StmMeasure] -- [FW4] : rfm12b
+
 
 [PluginTelldus] -up-> [Telldus]
 [HaMonitor] .up.> WsServer
