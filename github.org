@@ -45,6 +45,7 @@ package RaspberryPI {
 
    component [BLUEZ] #LightGrey
    component [libmosquitto] #LightGrey
+   component [libhiredis] #LightGrey
    component [mosquitto] #LightGrey
    component [redis] #LightGrey
    component [sqlite] #LightGrey
@@ -53,16 +54,14 @@ package RaspberryPI {
    component [PluginTelldus]
 
    [Report] .down.> WsServer
-   [HaGUI] .down.> mqtt : use
    [HaGUI] .down.> RedisApi : use
-   [libmosquitto] .up.> mqtt : use
+   [libhiredis] .up.> RedisApi : use
 
-   [mosquitto] -right- mqtt
    [redis] -right- RedisApi
 
    HttpServer -down- [HaGUI]
    WsServer -down- [HaGUI]
-   [hac] -up-> [libmosquitto] : use
+   [hac] -up-> [libhiredis] : use
    [hac] -down-> [BLUEZ] : use
    [hac] -left-> [rapidJSON] : use
    [hac] -left-> [libcurl] : use
